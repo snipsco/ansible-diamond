@@ -1,25 +1,23 @@
 ---
-# If false you need to place the prebuilt package under files/ and specify the diamond_version variable
-build_from_source: true
+
+diamond_build_from_source: False
 diamond_git_repo_url: https://github.com/python-diamond/Diamond
-# commit id or tag if build_from_source: true
-diamond_git_repo_version: "e891f8e1eef6067407f2bb0ddff4973893c33c94"
-# Version of prebuilt package, if build_from_source: false
-diamond_version: "3.5.8"
-diamond_conf_basepath: "/etc/diamond"
-diamond_conf_version: "{{diamond_conf_basepath}}/version"
-collector_conf_path: "{{diamond_conf_basepath}}/collectors"
-diamond_handlers_path: "/usr/share/pyshared/diamond/handler/"
+diamond_git_repo_version: null
+diamond_version: null
+diamond_conf_basepath: /etc/diamond
+diamond_conf_path: "{{ diamond_conf_basepath }}/collectors"
+diamond_collectors_path: /usr/local/share/diamond/collectors/
+diamond_handlers_path: /usr/local/lib/python2.7/dist-packages/diamond/handler/
 graphitehandler:
   enable: False
   host: none
   port: 2003
 statsdhandler:
-  enable: True
+  enable: False
   host: tbd
   port: 8125
 interval: 300
-path_prefix: "servers"
-hostname_method: "fqdn_short"
+path_prefix: servers
+hostname_method: fqdn_short
 # Override this from your playbook
 diamond_collector_extra_defs: {}

@@ -1,0 +1,8 @@
+---
+
+- name: Install Diamond
+  pip: name=diamond version={{ diamond_version|default(omit) }}
+
+- name: Create Collectors Configuration path
+  file: path="{{ diamond_conf_path }}"
+        state=directory

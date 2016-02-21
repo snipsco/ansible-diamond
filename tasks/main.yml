@@ -2,37 +2,17 @@
 - name: Include collector definitions
   include_vars: "collector_definitions.yml"
 
-- name: Check if diamond is installed
-  stat: path="{{ diamond_conf_version }}"
-  register: diamond_is_installed
-
-- name: check if diamond is installed with the correct version
-  command: "cat {{ diamond_conf_version}}"
-  when: diamond_is_installed.stat.exists
-  register: diamond_is_installed_version
-
-- include: setup-source.yml
-  when: not (diamond_is_installed.stat.exists and diamond_is_installed_version.stdout_lines|first == diamond_git_repo_version)
-
-# Install prebuilt diamond on Debian
-- include: setup-Debian-bin.yml
-  when: >
-    not (
-      diamond_is_installed.stat.exists
-      and diamond_is_installed_version.stdout_lines|first == diamond_version
-    )
-    and ansible_os_family == 'Debian'
-    and build_from_source == false
+- include: install_diamond.yml
 
 # Common for both OS's
 
 - name: Update diamond.conf with latest template content
-  template: src=diamond.conf dest="{{diamond_conf_basepath}}/" backup=yes
+  template: src=diamond.conf dest="{{ diamond_conf_basepath }}/" backup=yes
   notify:
     - restart diamond
 
 - name: Configuring default collectors
-  template: src=diamondcollectorconf.j2 dest="{{collector_conf_path}}/{{item.key}}.conf"
+  template: src=diamondcollectorconf.j2 dest="{{ diamond_conf_path }}/{{ item.key }}.conf"
   # As an alternative to the jinja2 template use the diamond_collector module
   # diamond_collector:
   #   name: "{{ item.key }}"
@@ -43,7 +23,7 @@
     - restart diamond
 
 - name: Configuring extra collectors
-  template: src=diamondcollectorconf.j2 dest="{{collector_conf_path}}/{{item.key}}.conf"
+  template: src=diamondcollectorconf.j2 dest="{{ diamond_conf_path }}/{{ item.key }}.conf"
   # As an alternative to the jinja2 template use the diamond_collector module
   # diamond_collector:
   #   name: "{{ item.key }}"
@@ -51,3 +31,21 @@
   with_dict: diamond_collector_extra_defs
   notify:
     - restart diamond
+
+- name: Install init script
+  copy: src=diamond.init
+        dest=/etc/init.d/diamond
+        mode=755
+  notify:
+    - restart diamond
+
+- name: Install defaults
+  copy: src=diamond.defaults
+        dest=/etc/default/diamond
+  notify:
+    - restart diamond
+
+- name: Create log directory
+  file: path=/var/log/diamond
+        state=directory
+        mode=777

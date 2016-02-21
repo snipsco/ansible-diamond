@@ -2,6 +2,8 @@
 
 Ansible role that installs the [Diamond metric collector daemon](https://github.com/python-diamond/Diamond) on RedHat/CentOS Debian/Ubuntu.
 
+This is a fork of https://github.com/pythianliappis/ansiblediamond, but with saner defaults.
+
 # Requirements #
 
 This role is currently meant to be used against Graphite (via the carbon protocol) or any other metric trending software that supports statsd (this also includes Graphite if running statsd daemon)
@@ -157,4 +159,3 @@ Apache
 # Author information #
 
 This role was created in 2014 by [Dimitrios Liappis](mailto:liappis@pythian.com)
-

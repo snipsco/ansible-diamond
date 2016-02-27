@@ -8,16 +8,18 @@ diamond_conf_basepath: /etc/diamond
 diamond_conf_path: "{{ diamond_conf_basepath }}/collectors"
 diamond_collectors_path: /usr/local/share/diamond/collectors/
 diamond_handlers_path: /usr/local/lib/python2.7/dist-packages/diamond/handler/
-graphitehandler:
+
+diamond_graphite_handler:
   enable: False
   host: none
   port: 2003
-statsdhandler:
+diamond_statsd_handler:
   enable: False
   host: tbd
   port: 8125
+
 diamond_interval: 300
 diamond_path_prefix: servers
 diamond_hostname_method: fqdn_short
-# Override this from your playbook
+
 diamond_collector_extra_defs: {}

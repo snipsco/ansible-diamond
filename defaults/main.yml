@@ -16,3 +16,5 @@ diamond_path_prefix: servers
 diamond_hostname_method: fqdn_short
 
 diamond_collector_extra_defs: {}
+diamond_collector_system_requirements: []
+diamond_collector_python_requirements: []

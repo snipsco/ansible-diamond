@@ -9,14 +9,7 @@ diamond_conf_path: "{{ diamond_conf_basepath }}/collectors"
 diamond_collectors_path: /usr/local/share/diamond/collectors/
 diamond_handlers_path: /usr/local/lib/python2.7/dist-packages/diamond/handler/
 
-diamond_graphite_handler:
-  enable: False
-  host: none
-  port: 2003
-diamond_statsd_handler:
-  enable: False
-  host: tbd
-  port: 8125
+diamond_handlers: []
 
 diamond_interval: 300
 diamond_path_prefix: servers

@@ -12,27 +12,20 @@ This role is currently meant to be used against Graphite (via the carbon protoco
 
 ## Default behaviour ##
 
-Default behaviour, when included in a playbook, is to install diamond by building a package from repo source and configure collectors as defined in `vars/collector_definitions.yml`, enabling the **statsdhandler** to send data to a host called **tbd**, port **8125**.
+The default is to write enable the archive handler.
 
-Obviously this is not very useful so the absolute minimum you need to do is provide a definition for graphitehandler and statsdhandler either in your playbook or in `defaults/main.yml`. One of them needs to be enabled and the other disabled. Example:
+```
+diamond_handlers:
+  - name: ArchiveHandler
+    path: diamond.handler.archive.ArchiveHandler
+    config:
+      log_file: /var/log/diamond/archive.log
 
-    graphitehandler:
-      enable: False
-      host: none
-      port: 2003
-    statsdhandler:
-      enable: True
-      host: 192.168.1.1
-      port: 8125
-
+```
 
 To provide your own collector definitions, define the hash `diamond_collector_extra_defs` either in your invoking playbook, or in `defaults/main.yml` inside the role. See below for examples.
 
 ## Overridable variables ##
-
-Those are defined in defaults/main.yml:
-
-`build_from_source: true`
 
 Setting this to true will build the latest master branch of BrightcoveOS/Diamond, see below.
 If set to false, currently supports only **Debian/Ubuntu** platforms and expects a prebuilt deb package under files/diamond_<version>_all.deb. See below on specifying the version.

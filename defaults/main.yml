@@ -9,7 +9,11 @@ diamond_conf_path: "{{ diamond_conf_basepath }}/collectors"
 diamond_collectors_path: /usr/local/share/diamond/collectors/
 diamond_handlers_path: /usr/local/lib/python2.7/dist-packages/diamond/handler/
 
-diamond_handlers: []
+diamond_handlers:
+  - name: ArchiveHandler
+    path: diamond.handler.archive.ArchiveHandler
+    config:
+      log_file: /var/log/diamond/archive.log
 
 diamond_interval: 300
 diamond_path_prefix: servers

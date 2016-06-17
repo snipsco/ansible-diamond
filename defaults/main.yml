@@ -17,6 +17,7 @@ diamond_handlers:
 
 diamond_interval: 300
 diamond_path_prefix: servers
+diamond_hostname:
 diamond_hostname_method: fqdn_short
 
 diamond_collector_extra_defs: {}

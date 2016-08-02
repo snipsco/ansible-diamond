@@ -39,6 +39,9 @@
   notify:
     - restart diamond
 
+- name: Enabled diamond on boot
+  service: name=diamond enabled=yes
+
 - name: Install defaults
   copy: src=diamond.defaults
         dest=/etc/default/diamond

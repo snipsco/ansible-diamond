@@ -35,7 +35,7 @@
 - name: Install init script
   copy: src=diamond.init
         dest=/etc/init.d/diamond
-        mode=755
+        mode=0755
   notify:
     - restart diamond
 
@@ -51,4 +51,4 @@
 - name: Create log directory
   file: path=/var/log/diamond
         state=directory
-        mode=777
+        mode=0777

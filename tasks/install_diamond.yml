@@ -1,7 +1,7 @@
 ---
 
 - name: Install diamond system requirements
-  apt: pkg={{ item }}
+  apt: pkg={{ item }} update-cache=yes
   with_items:
     - python-pip
     - python-dev

@@ -17,7 +17,7 @@
   # diamond_collector:
   #   name: "{{ item.key }}"
   #   config: "{{ item.value }}"
-  with_dict: diamond_collector_default_defs
+  with_dict: '{{ diamond_collector_default_defs }}'
   when: "item.key not in diamond_collector_extra_defs.keys()"
   notify:
     - restart diamond
@@ -28,7 +28,7 @@
   # diamond_collector:
   #   name: "{{ item.key }}"
   #   config: "{{ item.value }}"
-  with_dict: diamond_collector_extra_defs
+  with_dict: '{{ diamond_collector_extra_defs }}'
   notify:
     - restart diamond
 

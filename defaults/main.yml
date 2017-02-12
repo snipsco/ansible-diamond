@@ -3,7 +3,7 @@
 diamond_build_from_source: False
 diamond_git_repo_url: https://github.com/python-diamond/Diamond
 diamond_git_repo_version: null
-diamond_version: null
+#diamond_version: null
 diamond_conf_basepath: /etc/diamond
 diamond_conf_path: "{{ diamond_conf_basepath }}/collectors"
 diamond_collectors_path: /usr/local/share/diamond/collectors/

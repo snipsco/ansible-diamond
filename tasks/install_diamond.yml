@@ -1,7 +1,7 @@
 ---
 
 - name: Install diamond system requirements
-  apt: pkg={{ item }}
+  apt: pkg={{ item }} update-cache=yes
   with_items:
     - python-pip
     - python-dev
@@ -12,11 +12,11 @@
 
 - name: Install diamond collector system requirements
   apt: pkg={{ item }}
-  with_items: diamond_collector_system_requirements
+  with_items: '{{ diamond_collector_system_requirements }}'
 
 - name: Install diamond collector python requirements
   pip: name={{ item }}
-  with_items: diamond_collector_python_requirements
+  with_items: '{{ diamond_collector_python_requirements }}'
 
 - name: Create Collectors Configuration path
   file: path={{ diamond_conf_path }}

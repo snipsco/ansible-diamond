@@ -1,1 +1,6 @@
 \#*#
+
+.molecule
+.vagrant
+
+playbook.retry

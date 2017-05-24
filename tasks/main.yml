@@ -17,7 +17,7 @@
   # diamond_collector:
   #   name: "{{ item.key }}"
   #   config: "{{ item.value }}"
-  with_dict: diamond_collector_default_defs
+  with_dict: '{{ diamond_collector_default_defs }}'
   when: "item.key not in diamond_collector_extra_defs.keys()"
   notify:
     - restart diamond
@@ -28,16 +28,19 @@
   # diamond_collector:
   #   name: "{{ item.key }}"
   #   config: "{{ item.value }}"
-  with_dict: diamond_collector_extra_defs
+  with_dict: '{{ diamond_collector_extra_defs }}'
   notify:
     - restart diamond
 
 - name: Install init script
   copy: src=diamond.init
         dest=/etc/init.d/diamond
-        mode=755
+        mode=0755
   notify:
     - restart diamond
+
+- name: Enabled diamond on boot
+  service: name=diamond enabled=yes
 
 - name: Install defaults
   copy: src=diamond.defaults
@@ -48,4 +51,4 @@
 - name: Create log directory
   file: path=/var/log/diamond
         state=directory
-        mode=777
+        mode=0777

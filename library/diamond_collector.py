@@ -23,7 +23,7 @@ def main():
 
     config = ""
 
-    for (k, v) in collections.OrderedDict(sorted(params['config'].items())).iteritems():
+    for (k, v) in collections.OrderedDict(sorted(params['config'].items())).items():
         config += "%s=%s\n" % (k, v)
 
     if os.path.exists(config_file):

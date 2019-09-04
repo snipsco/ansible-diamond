@@ -157,8 +157,8 @@ diamond_collector_default_defs:
     translate_collections: False
     collection_sample_rate: 1
     databases: .*
-  # MonitCollector:
-  #   enabled: False
+  MonitCollector:
+    enabled: False
   # MountStatsCollector:
   #   enabled: False
   # MySQLCollector:

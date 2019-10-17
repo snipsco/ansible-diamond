@@ -9,6 +9,7 @@
 - name: Install Diamond
   pip: name=diamond
        version={{ diamond_version|default(omit) }}
+       executable=pip2
 
 - name: Install diamond collector system requirements
   apt: pkg={{ item }}

@@ -107,8 +107,8 @@ diamond_collector_default_defs:
   #   enabled: False
   # JCollectdCollector:
   #   enabled: False
-  # JolokiaCollector:
-  #   enabled: False
+  JolokiaCollector:
+    enabled: False
   # KafkaCollector:
   #   enabled: False
   # KSMCollector:
@@ -158,7 +158,7 @@ diamond_collector_default_defs:
     collection_sample_rate: 1
     databases: .*
   MonitCollector:
-    enabled: True
+    enabled: False
   # MountStatsCollector:
   #   enabled: False
   # MySQLCollector:
@@ -289,7 +289,7 @@ diamond_collector_default_defs:
   # UPSCollector:
   #   enabled: False
   UptimeCollector:
-    enabled: True
+    enabled: False
     ttl_multiplier: 2
     path_suffix: ""
     measure_collector_time: False

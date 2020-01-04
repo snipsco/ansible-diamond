@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description = diamond - A system statistics collector for graphite
+
+[Service]
+ExecStart = /usr/bin/diamond
+Type = forking
+# If not using default pid, make sure you change PIDFile setting
+PIDFile = /run/diamond.pid
+
+[Install]
+WantedBy=multi-user.target

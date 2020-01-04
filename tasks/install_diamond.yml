@@ -1,24 +1,53 @@
 ---
 
-- name: Install diamond system requirements
-  apt: pkg={{ item }} update-cache=yes
-  with_items:
-    - python-pip
-    - python-dev
+# with centos7 we need epel for pip2
+- block:
 
-- name: Install Diamond
-  pip: name=diamond
-       version={{ diamond_version|default(omit) }}
-       executable=pip2
+    - name: Import EPEL GPG key.
+      rpm_key:
+        key: https://archive.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+        state: present
+
+    - name: install EPEL repository
+      yum_repository:
+        name: epel
+        state: present
+        description: Extra Packages for Enterprise Linux {{ ansible_distribution_major_version }} - $basearch
+        baseurl: http://download.fedoraproject.org/pub/epel/{{ ansible_distribution_major_version }}/$basearch
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+        metalink: https://mirrors.fedoraproject.org/metalink?repo=epel-{{ ansible_distribution_major_version }}&arch=$basearch&infra=$infra&content=$contentdir
+        failovermethod: priority
+        gpgcheck: 1
+        enabled: 1
+
+  when: ansible_os_family | lower == 'redhat'
+
+- name: Install diamond system requirements
+  package:
+    name: "{{ diamond_packages }}"
+    state: present
+    update_cache: true
 
 - name: Install diamond collector system requirements
-  apt: pkg={{ item }}
-  with_items: '{{ diamond_collector_system_requirements }}'
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - '{{ diamond_collector_system_requirements }}'
+
+- name: Install Diamond
+  pip:
+    name: diamond
+    version: "{{ diamond_version | default(omit) }}"
+    executable: pip2
 
 - name: Install diamond collector python requirements
-  pip: name={{ item }}
-  with_items: '{{ diamond_collector_python_requirements }}'
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - '{{ diamond_collector_python_requirements }}'
 
 - name: Create Collectors Configuration path
-  file: path={{ diamond_conf_path }}
-        state=directory
+  file:
+    path: "{{ diamond_conf_path }}"
+    state: directory

@@ -1,3 +1,5 @@
+---
+
 # Build Diamond from source on Debian
 - include: setup-Debian-source.yml
   when: ansible_os_family == 'Debian' and diamond_build_from_source == true

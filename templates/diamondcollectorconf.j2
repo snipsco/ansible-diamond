@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+#
 {% for (key, value) in item['value']|dictsort %}
 {{ key }}={{ value }}
 {% endfor %}

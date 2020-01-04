@@ -1,0 +1,50 @@
+---
+
+_diamond_packages:
+  default:
+    - python-pip
+    - python-dev
+  ubuntu-18:
+    - python-pip
+    - python-dev
+    - python3-pip
+    - python3-dev
+  ubuntu:
+    - python-pip
+    - python-dev
+    - python3-pip
+    - python3-dev
+#   centos-7:
+#     - python2-pip
+#     - python-devel
+#     - python3-pip
+#     - python3-devel
+  centos-8:
+    - gcc
+    - python2-pip
+    - python2-devel
+    - python3-pip
+    - python3-devel
+  centos:
+    - gcc
+    - python2-pip
+    - python-devel
+    - python3-pip
+    - python3-devel
+
+_systemd_lib_directory:
+  default: /lib/systemd/system
+  debian: /lib/systemd/system
+  redhat: /usr/lib/systemd/system
+
+_diamond_collectors_path:
+  default: /usr/local/share/diamond/collectors
+  debian: /usr/local/share/diamond/collectors
+  ubuntu: /usr/local/share/diamond/collectors
+  redhat: /usr/share/diamond/collectors
+  centos: /usr/share/diamond/collectors
+
+
+diamond_packages: "{{ _diamond_packages[ansible_distribution | lower~ '-' ~ ansible_distribution_major_version] | default(_diamond_packages[ansible_distribution | lower] | default(_diamond_packages['default'])) }}"
+systemd_lib_directory: "{{ _systemd_lib_directory[ansible_os_family | lower ~ '-' ~ ansible_distribution_major_version] | default(_systemd_lib_directory[ansible_distribution | lower ~ '-' ~ ansible_distribution_major_version] | default(_systemd_lib_directory[ansible_distribution] | default(_systemd_lib_directory[ansible_os_family] | default(_systemd_lib_directory['default'])))) }}"
+diamond_collectors_path: "{{ _diamond_collectors_path[ansible_os_family | lower ~ '-' ~ ansible_distribution_major_version] | default(_diamond_collectors_path[ansible_distribution | lower] | default(_diamond_collectors_path[ansible_distribution] | default(_diamond_collectors_path[ansible_os_family] | default(_diamond_collectors_path['default'])))) }}"

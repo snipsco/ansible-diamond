@@ -6,7 +6,10 @@ diamond_git_repo_version: null
 #diamond_version: null
 diamond_conf_basepath: /etc/diamond
 diamond_conf_path: "{{ diamond_conf_basepath }}/collectors"
-diamond_collectors_path: /usr/local/share/diamond/collectors/
+# diamond_collectors_path: /usr/local/share/diamond/collectors/
+
+diamond_pid_file: /run/diamond.pid
+
 diamond_handlers_path: /usr/local/lib/python2.7/dist-packages/diamond/handler/
 
 diamond_handlers:
@@ -17,7 +20,7 @@ diamond_handlers:
 
 diamond_interval: 300
 diamond_path_prefix: servers
-diamond_hostname:
+diamond_hostname: "{{ ansible_fqdn }}"
 diamond_hostname_method: fqdn_short
 
 diamond_collector_extra_defs: {}

@@ -1,5 +1,7 @@
 \#*#
 
+.tox
+__pycache__
 .molecule
 .vagrant
 

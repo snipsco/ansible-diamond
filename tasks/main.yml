@@ -1,4 +1,5 @@
 ---
+
 - name: Include collector definitions
   include_vars: "collector_definitions.yml"
 
@@ -7,48 +8,76 @@
 # Common for both OS's
 
 - name: Update diamond.conf with latest template content
-  template: src=diamond.conf dest="{{ diamond_conf_basepath }}/" backup=yes
+  template:
+    src: diamond.conf
+    dest: "{{ diamond_conf_basepath }}/"
+    backup: true
   notify:
     - restart diamond
 
 - name: Configuring default collectors
-  template: src=diamondcollectorconf.j2 dest="{{ diamond_conf_path }}/{{ item.key }}.conf"
+  template:
+    src: diamondcollectorconf.j2
+    dest: "{{ diamond_conf_path }}/{{ item.key }}.conf"
   # As an alternative to the jinja2 template use the diamond_collector module
   # diamond_collector:
   #   name: "{{ item.key }}"
   #   config: "{{ item.value }}"
-  with_dict: '{{ diamond_collector_default_defs }}'
-  when: "item.key not in diamond_collector_extra_defs.keys()"
+  with_dict:
+    - '{{ diamond_collector_default_defs }}'
+  when: item.key not in diamond_collector_extra_defs.keys()
   notify:
     - restart diamond
 
 - name: Configuring extra collectors
-  template: src=diamondcollectorconf.j2 dest="{{ diamond_conf_path }}/{{ item.key }}.conf"
+  template:
+    src: diamondcollectorconf.j2
+    dest: "{{ diamond_conf_path }}/{{ item.key }}.conf"
   # As an alternative to the jinja2 template use the diamond_collector module
   # diamond_collector:
   #   name: "{{ item.key }}"
   #   config: "{{ item.value }}"
-  with_dict: '{{ diamond_collector_extra_defs }}'
+  with_dict:
+    - '{{ diamond_collector_extra_defs }}'
+  notify:
+    - restart diamond
+
+- name: create systemd service unit
+  template:
+    src: "diamond.service.j2"
+    dest: "{{ systemd_lib_directory }}/diamond.service"
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - ansible_service_mgr == "systemd"
   notify:
     - restart diamond
 
 - name: Install init script
-  copy: src=diamond.init
-        dest=/etc/init.d/diamond
-        mode=0755
+  copy:
+    src: diamond.init
+    dest: /etc/init.d/diamond
+    mode: 0755
+  when:
+    - ansible_service_mgr != "systemd"
   notify:
     - restart diamond
 
 - name: Enabled diamond on boot
-  service: name=diamond enabled=yes
+  service:
+    name: diamond
+    enabled: yes
 
 - name: Install defaults
-  copy: src=diamond.defaults
-        dest=/etc/default/diamond
+  copy:
+    src: diamond.defaults
+    dest: /etc/default/diamond
   notify:
     - restart diamond
 
 - name: Create log directory
-  file: path=/var/log/diamond
-        state=directory
-        mode=0777
+  file:
+    path: /var/log/diamond
+    state: directory
+    mode: 0777

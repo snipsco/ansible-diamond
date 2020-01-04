@@ -2,7 +2,7 @@
 
 Ansible role that installs the [Diamond metric collector daemon](https://github.com/python-diamond/Diamond) on RedHat/CentOS Debian/Ubuntu.
 
-This is a fork of https://github.com/pythianliappis/ansiblediamond, but with saner defaults.
+This is a fork of https://github.com/snipsco/ansible-diamond, but with saner defaults.
 
 # Requirements #
 
@@ -123,6 +123,14 @@ See the included playbook install_debian.yml
             enabled: False
       roles:
         - liappis.diamond
+
+# testing wtih molecule
+
+```
+tox -e py36-ansible28 -- molecule test -s default
+
+tox -e py36-ansible29 -- molecule test -s default
+```
 
 # Testing with Vagrant #
 

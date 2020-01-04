@@ -1,0 +1,21 @@
+---
+- hosts: all
+  any_errors_fatal: false
+  environment:
+    NETRC: ''
+  roles:
+    - role: ansible-diamond
+      vars:
+        diamond_handlers:
+          - name: GraphiteHandler
+            path: diamond.handler.graphite.GraphiteHandler
+            config:
+              host: graphite.test.com
+              port: 2003
+              timeout: 15
+              batch: 4
+              log_file: /var/log/diamond/graphite.log
+          - name: ArchiveHandler
+            path: diamond.handler.archive.ArchiveHandler
+            config:
+              log_file: /var/log/diamond/archive.log
